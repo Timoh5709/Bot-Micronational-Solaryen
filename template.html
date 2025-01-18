@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://i.ibb.co/NY4RMDY/Direct-Micronation-removebg-preview.png">
+    <title>Direct Micronation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+        #container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        header {
+            background-color: #f4f4f4;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            z-index: 10;
+        }
+        header img {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+        #sidebar {
+            width: 200px;
+            background-color: #eaeaea;
+            padding: 10px;
+            border-right: 1px solid #ccc;
+            overflow-y: auto;
+            position: fixed;
+            top: 60px;
+            bottom: 36px;
+        }
+        #sidebar input {
+            padding: 5px;
+            font-size: 14px;
+            width: calc(100% - 20px);
+        }
+        #sidebar div {
+            font-size: 12px;
+            display: inline-block;
+        }
+        #main-content {
+            margin-left: 200px;
+            margin-top: 60px;
+            margin-bottom: 36px;
+            overflow-y: auto;
+            padding: 20px;
+            flex-grow: 1;
+            background-image: url("https://i.ibb.co/C87rKrk/Direct-Micronation-tile.png");
+        }
+        #server-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        #server-table th, #server-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            background-color: white;
+        }
+        #footer {
+            background-color: #f4f4f4;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 12px;
+            border-top: 1px solid #ddd;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto; 
+            line-height: 1.5; 
+            white-space: normal; 
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://i.ibb.co/NY4RMDY/Direct-Micronation-removebg-preview.png" alt="Logo">
+        <a href="https://discord.gg/t5nXmFbWME"><img src="https://i.ibb.co/hD3xtpz/Principaut-de-Solarys-logo-officiel-1.png" alt="Drapeau"></a>
+        <h1>Direct Micronation - Gouvernement de la Principauté de Solarys</h1>
+    </header>
+    <div id="container">
+        <aside id="sidebar">
+            <input type="text" id="search" placeholder="Recherche..." oninput="searchTable()">
+            <div>Version : 1.0</div>
+        </aside>
+        <main id="main-content">
+            <table id="server-table">
+                <thead>
+                    <tr>
+                        <th>Serveur discord</th>
+                        <th>Lien d'invitation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </main>
+    </div>
+    <footer id="footer">
+        Cette page est fournie gratuitement aux peuples micronationaux par le Gouvernement de la Principauté de Solarys, cette page ne s'actualise pas en direct, afin d'avoir les derniers liens, demandez au Gouvernement. Cette page a été mise à jour le <!--Mettre la date-->
+    </footer>
+    <script>
+        const data = 
+            <!--JSON-->
+        
+
+        function displayTable(data) {
+            const tbody = document.querySelector("#server-table tbody");
+            tbody.innerHTML = "";
+
+            Object.keys(data).forEach(category => {
+                data[category].forEach(link => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td>${category}</td><td><a href="${link}" target="_blank">${link}</a></td>`;
+                    tbody.appendChild(row);
+                });
+            });
+        }
+
+        function searchTable() {
+            const searchTerm = document.getElementById("search").value.toLowerCase();
+            const filteredData = {};
+
+            Object.keys(data).forEach(category => {
+                const filteredLinks = data[category].filter(link =>
+                    category.toLowerCase().includes(searchTerm) || link.toLowerCase().includes(searchTerm)
+                );
+                if (filteredLinks.length > 0) {
+                    filteredData[category] = filteredLinks;
+                }
+            });
+
+            displayTable(filteredData);
+        }
+
+        window.onload = () => displayTable(data);
+    </script>
+</body>
+</html>
