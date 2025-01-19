@@ -1,0 +1,8 @@
+modules = ["python-3.12", "web", "python-3.9"]
+run = "python Solarys.py"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "python Solarys.py"]
