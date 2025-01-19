@@ -20,7 +20,6 @@ import json
 import discord
 from discord import app_commands
 from discord.ext import commands
-import sys
 
 intents = discord.Intents.default()
 intents.members = True
@@ -362,5 +361,5 @@ async def ajouter_bot(interaction: discord.Interaction):
     )
     await interaction.response.send_message(embed=embed)
 
-token = str(sys.argv[1])
+token = input("Token du bot : ")
 bot.run(token)
