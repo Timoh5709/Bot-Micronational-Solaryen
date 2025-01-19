@@ -267,7 +267,7 @@ async def collect_invites(interaction: discord.Interaction):
                 continue
 
             idx2 += 1
-            if idx2 % 10 == 0 or idx2 == total_links:
+            if idx2 % 20 == 0 or idx2 == total_links:
                 await interaction.edit_original_response(content=f"Mise à jour des données... {idx2/total_links*100:.2f}% effectué, il reste {total_links - idx2}/{total_links} liens à actualiser")
     
     idx = 0
@@ -292,7 +292,7 @@ async def collect_invites(interaction: discord.Interaction):
         except discord.Forbidden:
             continue
         idx = idx +1
-        if idx % 10 == 0:
+        if idx % 20 == 0:
             await interaction.edit_original_response(content=f"Collecte des liens en cours... {idx/len(interaction.guild.text_channels)*100:.2f}% effectué, il reste {len(interaction.guild.text_channels)-idx}/{len(interaction.guild.text_channels)} salons à chercher")
 
     if not updated_invite_data:
