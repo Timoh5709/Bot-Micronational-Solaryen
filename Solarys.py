@@ -98,16 +98,16 @@ async def infos(interaction: discord.Interaction):
     )
     
     for server, links in messages_by_server.items():
-        value = "\n".join(links)
-        embed.add_field(name=f"Annonces du salon {server}", value=value, inline=False)
+    value = ""
+    for link in links:
+        if len(value) + len(link) + 1 > MAX_FIELD_LENGTH:
+            embed.add_field(name=f"Annonces du salon {server}", value=value, inline=False)
+            value = ""
 
-        if len(embed.fields) >= 25:
-            embeds.append(embed)
-            embed = discord.Embed(
-                title=f"Les infos du jour ({len(embeds)})",
-                color=discord.Color.from_rgb(15, 5, 107),
-                description="Continuité des annonces relayées aujourd'hui."
-            )
+        value += link + "\n"
+
+    if value:
+        embed.add_field(name=f"Annonces du salon {server}", value=value, inline=False)
 
     if embed.fields:
         embeds.append(embed)
