@@ -96,24 +96,36 @@ async def infos(interaction: discord.Interaction):
         color=discord.Color.from_rgb(15, 5, 107),
         description="Voici les annonces relayées aujourd'hui."
     )
-    
+
+    def embed_size(embed):
+        "Calcule la taille totale d'un embed."
+        total_size = len(embed.title) + len(embed.description or "")
+        for field in embed.fields:
+            total_size += len(field.name) + len(field.value)
+        return total_size
+
     for server, links in messages_by_server.items():
-    value = ""
-    for link in links:
-        if len(value) + len(link) + 1 > MAX_FIELD_LENGTH:
+        value = ""
+
+        for link in links:
+            if len(value) + len(link) + 1 > 1024 or embed_size(embed) + len(value) + len(link) + 1 > 6000:
+                embeds.append(embed)
+                embed = discord.Embed(
+                    title="Les infos du jour (suite)",
+                    color=discord.Color.from_rgb(15, 5, 107)
+                )
+                value = ""
+
+            value += link + "\n"
+
+        if value:
             embed.add_field(name=f"Annonces du salon {server}", value=value, inline=False)
-            value = ""
-
-        value += link + "\n"
-
-    if value:
-        embed.add_field(name=f"Annonces du salon {server}", value=value, inline=False)
 
     if embed.fields:
         embeds.append(embed)
 
     if embeds:
-        await interaction.edit_original_response(content="Voici les annonces relayées aujourd'hui :", embed=embeds[0])
+        await interaction.edit_original_response(content=f"Voici les annonces relayées aujourd'hui ({messages_processed}) :", embed=embeds[0])
         for additional_embed in embeds[1:]:
             await interaction.followup.send(embed=additional_embed)
     else:
